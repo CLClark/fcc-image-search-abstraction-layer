@@ -4,95 +4,14 @@ var express = require('express');
 var app = express();
 var crypto = require("crypto");
 var mongodb = require('mongodb');
-var got = require('got');
 
 // http://expressjs.com/en/starter/static-files.html
 app.use(express.static('public'));
 
 //db connection
 var MongoClient = mongodb.MongoClient;
-var mUrl = process.env.COMPLETE; //for mongodb
+var url = process.env.COMPLETE;
 
-app.use("/api/imagesearch/", function (request, response, next) {
-   response.sendFile(__dirname + '/views/index.html');
-
-	//isolate the query terms
-	var spaceReplace = new RegExp(/(%20)+/,'g');
-	var toSearch = request.path.slice(1).replace(spaceReplace, "+");
-	
-	//check for parameter
-	var offset = request.query.offset;  
-  
-	//perform api lookup		
- 	got(giveQString(toSearch), {json: true})
-    .then( function (resp){
-      console.log(resp.body.items);
-      //do something with the resp.body.items array
-    },
-      function(resultMsg){}
-    );		
-	//mongodb	
-	//next();
-});
-
-function giveQString(inputTerms){
-	var queryString =
-    "https://www.googleapis.com/customsearch/v1?" +
-      "key=" +
-      process.env.GCSEARCH +
-      "&cx=" +
-      process.env.CXIS +
-      "&q=" +
-      inputTerms +
-    //"&start=0" +
-    "&num=10" ;    
-    //"&ie=utf8" +
-    //"&safe=high" +
-    //"&client=google-csbe" +
-    //"&output=xml_no_dtd" +
-    //"&cx="+
-    //process.env.CXIS;     
-  return queryString;
-}
-
-//call mongodb, serve the log as json response
-app.use('/api/latest/imagesearch/', function(request, response, next){
-  
-  MongoClient.connect(mUrl, function (err, db) {      
-    if (err) {
-      console.log('Unable to connect to the mongoDB server. Error:', err);
-    }
-    else {
-      var docOut = 
-      db.collection('image-search-log').findOne({
-        //find one or find all
-      },
-      //callback on db response
-      function (err,doc){
-        if (err) {
-          console.log('findOne() query error: ', err);
-        }
-        //doc found by query
-        else if ( doc !== null ) {
-          
-          response.json( jfyer(
-            doc.term, doc.when
-          ));
-          
-        db.close();
-        }
-        //go to the next middleware
-        else {
-          next();
-        }
-      });//findOne callback
-    }  
-  });//mongo callback
-});
-
-
-
-/*
 app.use("/new/", function (request, response, next) {
 
   //slice "/new/" from request url
@@ -198,7 +117,6 @@ app.use(function (request, response, next){
     next();
   }
 });
-*/
 
 // http://expressjs.com/en/starter/basic-routing.html
 app.get("/", function (request, response) {
@@ -208,7 +126,7 @@ app.get("/", function (request, response) {
 
 //simplify the response calls
 function jfyer (longOne, shortOne){  
-  var jOut = { "term": longOne, "when": shortOne};  
+  var jOut = { "original_url": longOne, "short_url": shortOne};  
   var stringOut = JSON.stringify(jOut);   
   //return stringOut;
   return jOut;
