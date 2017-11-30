@@ -10,7 +10,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>CLClark - fcc url shortener microservice</title>
+    <title>CLClark - fcc image search abstraction layer</title>
     <meta name="description" content="fcc microservice">
     <link id="favicon" rel="icon" href="https://glitch.com/edit/favicon-app.ico" type="image/x-icon">
     <meta charset="utf-8">
@@ -20,12 +20,24 @@
   <body>
     <header>
       <h1>
-        <a href="https://aquatic-warlock.glitch.me/api/imagesearch/frogs">Submit your URL to shorten (append to /new/)</a>
+        <a href="https://aquatic-warlock.glitch.me/api/imagesearch/frogs">Google CSE API with Image Search (ex:frogs) </a>
       </h1>
     </header>
 
     <main>
+      <br>
+      <h2>
+        User Stories:
+      </h2>
+      <ul>
+        <li>User Story: I can get the image URLs, alt text and page urls for a set of images relating to a given search string.</li>
+        <li>User Story: I can paginate through the responses by adding a ?offset=2 parameter to the URL.</li>
+        <li>User Story: I can get a list of the most recently submitted search strings.</li>                  
+      </ul>
       
+      <li><a>Append search terms to to /api/imagesearch/</a></li>
+      <br>
+      <li><a>View previous searches at <a href="/api/latest/imagesearch/">/api/latest/imagesearch/</a></a></li>
     </main>
 
     <footer>
