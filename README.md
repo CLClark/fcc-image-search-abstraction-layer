@@ -1,12 +1,17 @@
-CLClark FCC URL shortener microservice
+CLClark Google CSE API with Image Search
 =========================
 ------------
-Submit your URL to shorten (example)
 
-    Append your URL to shorten to 'https://deep-pen.glitch.me/new/'
-    Ex: 'https://deep-pen.glitch.me/new/' + 'http://www.google.com' = 'https://deep-pen.glitch.me/new/http://www.google.com'
-    mongodb, express.js, node.js, glitch
+User Stories:
+
+    User Story: I can get the image URLs, alt text and page urls for a set of images relating to a given search string.
+    User Story: I can paginate through the responses by adding a ?offset=2 parameter to the URL.
+    User Story: I can get a list of the most recently submitted search strings.
+
+Append search terms to to /api/imagesearch/
+
+View previous searches at /api/latest/imagesearch/
 
 -------------------
 
-\ ゜o゜)ノ
+Thx Glitch \ ゜o゜)ノ
